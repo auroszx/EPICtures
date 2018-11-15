@@ -1,6 +1,8 @@
 import React from 'react';
 //import { StyleSheet, Text, View } from 'react-native';
 import { Container, Header, Content, Button, Text } from 'native-base';
+import { createStackNavigator } from 'react-navigation';
+import { MainScreen } from './app/screens/MainScreen';
 
 export default class App extends React.Component {
 
@@ -21,27 +23,17 @@ export default class App extends React.Component {
     if (this.state.loading) {
       return <Expo.AppLoading />;
     }
-    return (
-      //<View style={styles.container}>
-      //  <Text>Open up App.js to start working on your app!</Text>
-      //</View>
-      <Container>
-        <Header />
-        <Content>
-          <Button>
-            <Text>Click Me!</Text>
-          </Button>
-        </Content>
-      </Container>
-    );
+    else {
+      return <RootStack />;
+    }
+    
   }
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+const RootStack = createStackNavigator({
+  Main: MainScreen,
+},
+  {
+    initialRouteName: 'Main',
+  }
+);
