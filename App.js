@@ -3,6 +3,7 @@ import React from 'react';
 import { Container, Header, Content, Button, Text } from 'native-base';
 import { createStackNavigator } from 'react-navigation';
 import { MainScreen } from './app/screens/MainScreen';
+import { DetailScreen } from './app/screens/DetailScreen';
 
 export default class App extends React.Component {
 
@@ -32,6 +33,7 @@ export default class App extends React.Component {
 
 const RootStack = createStackNavigator({
   Main: MainScreen,
+  Detail: DetailScreen
 },
   {
     initialRouteName: 'Main',
