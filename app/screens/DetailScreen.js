@@ -5,7 +5,7 @@ import { Container, Content, Button, Text, Card, CardItem, Spinner } from 'nativ
 export class DetailScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { loading: false, enhancement: 50 };
+        this.state = { loading: false, enhancement: 0 };
     }
 
     static navigationOptions = {
@@ -36,6 +36,10 @@ export class DetailScreen extends React.Component {
         // this.state.loading = false;
     }
 
+    getEnhancementVal() {
+        return this.state.enhancement;
+    }
+
     render() {
         if (this.state.loading) {
             return ( 
@@ -49,12 +53,16 @@ export class DetailScreen extends React.Component {
         return (
             <Container style={{flexDirection: "row", justifyContent: "center"}}>
                 <Content padder>
+                    <Text>https://epic.gsfc.nasa.gov/archive/natural/{this.props.navigation.state.params.dateString}/jpg/epic_1b_{this.props.navigation.state.params.identifier}.jpg</Text>
                     <Image onLoadEnd={() => this.state.loading = false} 
-                        source={{uri: 'https://epic.gsfc.nasa.gov/archive/natural/2018/11/14/jpg/epic_1b_20181114163940.jpg'}} 
-                        style={{height: 200, width: null, flex: 1, opacity: 100-this.state.enhancement}}/>
+                        source={{uri: 'https://epic.gsfc.nasa.gov/archive/natural/'+this.props.navigation.state.params.dateString+'/jpg/epic_1b_'+this.props.navigation.state.params.identifier+'.jpg'}} 
+                        style={{height: 200, width: null, flex: 1, opacity: 1-this.state.enhancement}}/>
+                    <Image onLoadEnd={() => this.state.loading = false} 
+                        source={{uri: 'https://epic.gsfc.nasa.gov/archive/enhanced/'+this.props.navigation.state.params.dateString+'/jpg/epic_1b_'+this.props.navigation.state.params.identifier+'.jpg'}} 
+                        style={{height: 200, width: null, flex: 1, opacity: this.state.enhancement}}/>
                     <Text>Image from:</Text>
-                    <Slider minimumValue={0} maximumValue={100} step={1} value={this.state.enhancement} 
-                            onValueChange={(val) => this.setState({enhancement = val})}/>
+                    <Slider value={this.state.enhancement} 
+                            onValueChange={enhancement => this.setState({enhancement})} />
                 </Content>
             </Container>
         );
