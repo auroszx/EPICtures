@@ -1,11 +1,11 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, Slider } from 'react-native';
 import { Container, Content, Button, Text, Card, CardItem, Spinner } from 'native-base';
 
 export class DetailScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { loading: false };
+        this.state = { loading: false, enhancement: 50 };
     }
 
     static navigationOptions = {
@@ -49,8 +49,12 @@ export class DetailScreen extends React.Component {
         return (
             <Container style={{flexDirection: "row", justifyContent: "center"}}>
                 <Content padder>
-                    <Image source={{uri: 'https://epic.gsfc.nasa.gov/archive/natural/2018/11/14/jpg/epic_1b_20181114163940.jpg'}} style={{height: 200, width: null, flex: 1}}/>
+                    <Image onLoadEnd={() => this.state.loading = false} 
+                        source={{uri: 'https://epic.gsfc.nasa.gov/archive/natural/2018/11/14/jpg/epic_1b_20181114163940.jpg'}} 
+                        style={{height: 200, width: null, flex: 1, opacity: 100-this.state.enhancement}}/>
                     <Text>Image from:</Text>
+                    <Slider minimumValue={0} maximumValue={100} step={1} value={this.state.enhancement} 
+                            onValueChange={(val) => this.setState({enhancement = val})}/>
                 </Content>
             </Container>
         );

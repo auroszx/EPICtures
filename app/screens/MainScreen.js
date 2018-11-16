@@ -27,7 +27,7 @@ export class MainScreen extends React.Component {
         .then((responseJson) => {
             console.log(responseJson);
             this.setState({
-                data: responseJson
+                data: responseJson.reverse()
             });
         })
         .catch((error) => {
