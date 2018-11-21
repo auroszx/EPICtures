@@ -62,14 +62,14 @@ export class MainScreen extends React.Component {
             return '';    
     };
 
-    searchByDate(date) {
-        this.state.loading = true;
-        fetch('https://epic.gsfc.nasa.gov/api/natural/date/'+this.convertDate(date), {
+    async searchByDate(date) {
+        //this.state.loading = true;
+        await fetch('https://epic.gsfc.nasa.gov/api/natural/date/'+this.convertDate(date), {
             method: 'GET'
         })
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson);
+            //console.log(responseJson);
             this.setState({
                 data: responseJson.reverse()
             });
@@ -77,7 +77,7 @@ export class MainScreen extends React.Component {
         .catch((error) => {
             console.error(error);
         });
-        this.state.loading = false;
+        //this.state.loading = false;
     }
 
     render() {
@@ -112,7 +112,15 @@ export class MainScreen extends React.Component {
                                     <Text style={{color: '#6b52ae'}}>{item.date}</Text>
                                 </CardItem>
                                 <CardItem cardBody button onPress={() => {
-                                        this.props.navigation.navigate('Detail', { dateString: this.parseDate(item.date), identifier: item.identifier });
+                                        this.props.navigation.navigate('Detail', 
+                                                                        { 
+                                                                            dateString: this.parseDate(item.date), 
+                                                                            identifier: item.identifier,
+                                                                            center: item.coords.centroid_coordinates,
+                                                                            satellite: item.coords.dscovr_j2000_position,
+                                                                            moon: item.coords.lunar_j2000_position,
+                                                                            sun: item.coords.sun_j2000_position,
+                                                                        });
                                     }
                                 }>
                                     <Image source={{uri: 'https://epic.gsfc.nasa.gov/archive/natural/'+this.parseDate(item.date)+'/thumbs/epic_1b_'+item.identifier+'.jpg'}} style={{height: 200, width: null, flex: 1}}/>
