@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import { Container, Content, Button, Text, Card, CardItem, Body, Spinner, DatePicker } from 'native-base';
 
 export class MainScreen extends React.Component {
@@ -42,6 +42,10 @@ export class MainScreen extends React.Component {
 
     parseDateTime(date) {
         return date.replace(/ /g, "").replace(/-/g, "").replace(/:/g, "");
+    }
+
+    returnValueFromKey(obj, key) {
+        return obj[key];
     }
 
     convertDate(d) {
@@ -107,25 +111,37 @@ export class MainScreen extends React.Component {
                     />
                     <Card dataArray={this.state.data}
                         renderRow={(item) =>
-                            <Container style={{height: 200, width: null, flex: 1}}>  
-                                <CardItem header bordered>
-                                    <Text style={{color: '#6b52ae'}}>{item.date}</Text>
-                                </CardItem>
-                                <CardItem cardBody button onPress={() => {
-                                        this.props.navigation.navigate('Detail', 
-                                                                        { 
-                                                                            dateString: this.parseDate(item.date), 
-                                                                            identifier: item.identifier,
-                                                                            center: item.coords.centroid_coordinates,
-                                                                            satellite: item.coords.dscovr_j2000_position,
-                                                                            moon: item.coords.lunar_j2000_position,
-                                                                            sun: item.coords.sun_j2000_position,
-                                                                        });
-                                    }
-                                }>
-                                    <Image source={{uri: 'https://epic.gsfc.nasa.gov/archive/natural/'+this.parseDate(item.date)+'/thumbs/epic_1b_'+item.identifier+'.jpg'}} style={{height: 200, width: null, flex: 1}}/>
-                                </CardItem>
-                            </Container>
+                            <View>
+                                { item.length > 0 && 
+                                    <Container style={{height: 200, width: null, flex: 1}}>  
+                                        <CardItem header bordered>
+                                            <Text style={{color: '#6b52ae'}}>{item.date}</Text>
+                                        </CardItem>
+                                        <CardItem cardBody button onPress={() => {
+                                                this.props.navigation.navigate('Detail', 
+                                                                                { 
+                                                                                    dateString: this.parseDate(item.date), 
+                                                                                    identifier: item.identifier,
+                                                                                    center_lat: this.returnValueFromKey(this.returnValueFromKey(item, "coords").centroid_coordinates, "lat"),
+                                                                                    center_lon: this.returnValueFromKey(this.returnValueFromKey(item, "coords").centroid_coordinates, "lat"),
+                                                                                    satellite_lat: this.returnValueFromKey(this.returnValueFromKey(item, "coords").dscovr_j2000_position, "x"),
+                                                                                    satellite_lon: this.returnValueFromKey(this.returnValueFromKey(item, "coords").dscovr_j2000_position, "y"),
+                                                                                    moon_lat: this.returnValueFromKey(this.returnValueFromKey(item, "coords").lunar_j2000_position, "x"),
+                                                                                    moon_lon: this.returnValueFromKey(this.returnValueFromKey(item, "coords").lunar_j2000_position, "y"),
+                                                                                    sun_lat: this.returnValueFromKey(this.returnValueFromKey(item, "coords").sun_j2000_position, "x"),
+                                                                                    sun_lon: this.returnValueFromKey(this.returnValueFromKey(item, "coords").sun_j2000_position, "y"),
+                                                                                });
+                                            }
+                                        }>
+                                            <Image source={{uri: 'https://epic.gsfc.nasa.gov/archive/natural/'+this.parseDate(item.date)+'/thumbs/epic_1b_'+item.identifier+'.jpg'}} style={{height: 200, width: null, flex: 1}}/>
+                                        </CardItem>
+                                    </Container>
+                                }
+
+                                { item.length == 0 && 
+                                    <Text style={{textAlign: 'center'}}>Sorry, no EPIC pictures for this day :(</Text>
+                                }
+                            </View>
                         }>
 
                     </Card>

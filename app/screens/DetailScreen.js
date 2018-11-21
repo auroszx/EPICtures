@@ -24,6 +24,7 @@ export class DetailScreen extends React.Component {
     }
 
     render() {
+        console.log(this.props.navigation.state.params);
         return (
             <Container style={{flexDirection: "row", justifyContent: "center"}}>
                 <Content padder>
@@ -61,11 +62,14 @@ export class DetailScreen extends React.Component {
                             </Content>
                         </Container>
                     }
-
-                    <Text>Picture center coordinates: {this.props.navigation.state.params.center}</Text>
-                    <Text>Satellite space position: {this.props.navigation.state.params.satellite}</Text>
-                    <Text>Moon space position: {this.props.navigation.state.params.moon}</Text>
-                    <Text>Sun space position: {this.props.navigation.state.params.sun}</Text>
+                    <Container>
+                        <Content padder style={{top: -400}}>
+                            <Text>Picture center coordinates: {this.props.navigation.state.params.center_lat}, {this.props.navigation.state.params.center_lon}</Text>
+                            <Text>Satellite space position: {this.props.navigation.state.params.satellite_lat}, {this.props.navigation.state.params.satellite_lon}</Text>
+                            <Text>Moon space position: {this.props.navigation.state.params.moon_lat}, {this.props.navigation.state.params.moon_lon}</Text>
+                            <Text>Sun space position: {this.props.navigation.state.params.sun_lat}, {this.props.navigation.state.params.sun_lon}</Text>
+                        </Content>
+                    </Container>
                 </Content>
             </Container>
         );

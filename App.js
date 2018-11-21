@@ -4,6 +4,7 @@ import { Container, Header, Content, Button, Text } from 'native-base';
 import { createStackNavigator } from 'react-navigation';
 import { MainScreen } from './app/screens/MainScreen';
 import { DetailScreen } from './app/screens/DetailScreen';
+import { WelcomeScreen } from './app/screens/WelcomeScreen';
 
 export default class App extends React.Component {
 
@@ -33,9 +34,10 @@ export default class App extends React.Component {
 
 const RootStack = createStackNavigator({
   Main: MainScreen,
-  Detail: DetailScreen
+  Detail: DetailScreen,
+  Welcome: WelcomeScreen
 },
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'Welcome',
   }
 );
