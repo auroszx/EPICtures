@@ -112,7 +112,6 @@ export class MainScreen extends React.Component {
                     <Card dataArray={this.state.data}
                         renderRow={(item) =>
                             <View>
-                                { item.length > 0 && 
                                     <Container style={{height: 200, width: null, flex: 1}}>  
                                         <CardItem header bordered>
                                             <Text style={{color: '#6b52ae'}}>{item.date}</Text>
@@ -136,11 +135,7 @@ export class MainScreen extends React.Component {
                                             <Image source={{uri: 'https://epic.gsfc.nasa.gov/archive/natural/'+this.parseDate(item.date)+'/thumbs/epic_1b_'+item.identifier+'.jpg'}} style={{height: 200, width: null, flex: 1}}/>
                                         </CardItem>
                                     </Container>
-                                }
-
-                                { item.length == 0 && 
-                                    <Text style={{textAlign: 'center'}}>Sorry, no EPIC pictures for this day :(</Text>
-                                }
+                                
                             </View>
                         }>
 
